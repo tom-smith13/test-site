@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mighty Group | Integrated Cleaning & Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /*
+         * === CUSTOM STYLES PER CLIENT FEEDBACK ===
+         */
+      :root {
+        --brand-blue: #3b82f6;
+        --brand-teal: #14b8a6;
+        --deep-dark: #0f172a; /* A deep, premium dark blue/slate */
+        --pastel-light: #f0f8ff; /* AliceBlue, a very light pastel */
+        --pastel-hover: #e0f2fe; /* A subtle light blue for hovers */
+        --shadow-color: #3b82f64d; /* Blue with 40% opacity */
+      }
+
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #f8fafc; /* Light grey background for contrast */
+      }
+
+      /* 1. Global Style: Deep dark hero background */
+      .hero-section {
+        background-color: var(--deep-dark);
+      }
+
+      /* 2. Header & Nav: Diagonal tag divider look on hover */
+      .nav-tab {
+        position: relative;
+        z-index: 1;
+      }
+      .nav-tab::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 110%;
+        height: 150%;
+        transform: translate(-50%, -50%) skewX(-20deg);
+        background-color: var(--pastel-hover);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+      }
+      .nav-tab:hover::before {
+        opacity: 1;
+      }
+
+      /* 3. Sticky Call Widget */
+      .sticky-call-widget {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        z-index: 50;
+      }
+
+      /* 4. Interactive Service Toggle */
+      .service-toggle-btn.active {
+        background-color: var(--brand-blue);
+        color: white;
+        box-shadow: 0 4px 14px 0 rgb(0 118 255 / 39%);
+      }
+
+      /* 5. Service Grid Styling */
+      .service-box {
+        background-color: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 1.5rem; /* 24px */
+        padding: 2rem; /* 32px */
+        position: relative;
+        transition: all 0.2s ease-in-out;
+        /* Stylized contrasting color drop-shadow */
+        box-shadow: 8px 8px 0px var(--shadow-color);
+      }
+      .service-box:hover {
+        transform: translate(-4px, -4px);
+        box-shadow: 12px 12px 0px var(--shadow-color);
+      }
+      .service-box-content {
+        position: relative;
+        z-index: 1;
+      }
+      /* Placeholder classes for faint background watermarks */
+      .service-box::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: 50%;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.03;
+        z-index: 0;
+      }
+      /* Example placeholder classes */
+      .watermark-schools::after {
+        background-image: url('https://www.svgrepo.com/show/379974/school.svg');
+      }
+      .watermark-showrooms::after {
+        background-image: url('https://www.svgrepo.com/show/443139/car.svg');
+      }
+      .watermark-offices::after {
+        background-image: url('https://www.svgrepo.com/show/453535/building-office.svg');
+      }
+      .watermark-retail::after {
+        background-image: url('https://www.svgrepo.com/show/453612/shop.svg');
+      }
+      .watermark-drone::after {
+        background-image: url('https://www.svgrepo.com/show/443585/drone.svg');
+      }
+      .watermark-key::after {
+        background-image: url('https://www.svgrepo.com/show/453549/key.svg');
+      }
+
+      /* 6. Layout Flow: Quote form with pastel background */
+      .quote-form-container {
+        background-color: var(--pastel-light);
+      }
+
+      /* 7. Interactive Callback Pop-up */
+      #callback-modal {
+        transition:
+          opacity 0.3s ease-in-out,
+          transform 0.3s ease-in-out;
+      }
+      #callback-modal.hidden {
+        opacity: 0;
+        transform: scale(0.95);
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body class="text-slate-700">
+    <!-- Header & Navigation -->
+    <header
+      class="fixed w-full z-40 bg-white/80 backdrop-blur-md border-b border-slate-200"
+    >
+      <nav class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <!-- Logo -->
+          <a href="#" class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold text-xl"
+            >
+              M
+            </div>
+            <span
+              class="font-extrabold text-2xl tracking-tighter text-slate-800"
+              >Mighty<span class="text-blue-500">Group</span></span
+            >
+          </a>
+          <!-- Desktop Menu -->
+          <div class="hidden lg:flex items-center space-x-2">
+            <a
+              href="#services"
+              class="nav-tab px-4 py-2 rounded-md text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors"
+              >Our Services</a
+            >
+            <a
+              href="#quote"
+              class="nav-tab px-4 py-2 rounded-md text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors"
+              >Get a Quote</a
+            >
+            <a
+              href="#work"
+              class="nav-tab px-4 py-2 rounded-md text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors"
+              >Work For Us</a
+            >
+          </div>
+          <!-- Call to Action -->
+          <div class="hidden lg:block">
+            <a
+              href="tel:07564541727"
+              class="px-5 py-2.5 bg-brand-teal text-white rounded-full text-sm font-bold hover:bg-teal-500 transition-colors shadow-lg shadow-teal-100"
+            >
+              Contact Us
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero Section -->
+      <section
+        class="hero-section relative min-h-[80vh] flex items-center justify-center pt-20 text-center overflow-hidden"
+      >
+        <div
+          class="absolute inset-0 bg-grid-slate-800 [mask-image:linear-gradient(0deg,#fff,rgba(255,255,255,0))]"
+        ></div>
+        <div class="relative z-10 max-w-4xl mx-auto px-6">
+          <h1
+            class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-6"
+          >
+            Integrated Services. <br class="hidden md:block" />
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-400"
+              >Impeccable Standards.</span
+            >
+          </h1>
+          <p class="text-xl text-slate-300 max-w-2xl mx-auto mb-10">
+            Mighty Group delivers elite, SIA-licensed security and CQC-compliant
+            commercial cleaning to protect your assets, staff, and professional
+            reputation.
+          </p>
+          <a
+            href="#quote"
+            class="px-8 py-4 bg-brand-blue text-white rounded-xl font-bold text-center hover:bg-blue-700 transition-transform transform hover:scale-105 shadow-2xl shadow-blue-500/30"
+          >
+            Request Your Free Quote
+          </a>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section id="services" class="py-24">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+          <div class="text-center mb-16">
+            <h2
+              class="text-4xl font-extrabold text-slate-900 mb-4 tracking-tight"
+            >
+              Our Service Divisions
+            </h2>
+            <p class="text-slate-500 max-w-2xl mx-auto">
+              Choose a division to see how we can tailor our services to your
+              exact needs.
+            </p>
+          </div>
+
+          <!-- 4. Interactive Service Toggle -->
+          <div class="flex justify-center mb-12">
+            <div
+              class="bg-slate-100 p-1.5 rounded-full border border-slate-200"
+            >
+              <button
+                id="toggle-cleaning"
+                class="service-toggle-btn active px-8 py-3 rounded-full font-bold text-sm transition-all duration-300"
+              >
+                Mighty Cleaning
+              </button>
+              <button
+                id="toggle-security"
+                class="service-toggle-btn px-8 py-3 rounded-full font-bold text-sm transition-all duration-300 text-slate-500"
+              >
+                Mighty Security
+              </button>
+            </div>
+          </div>
+
+          <!-- 5. Service Grids -->
+          <div
+            id="cleaning-grid"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12"
+          >
+            <div class="service-box watermark-offices">
+              <div class="service-box-content">
+                <h3 class="font-bold text-xl text-slate-800 mb-2">
+                  Daily Office Cleaning
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Tailored corporate hygiene schedules for a productive,
+                  welcoming workspace.
+                </p>
+              </div>
+            </div>
+            <div class="service-box">
+              <div class="service-box-content">
+                <h3 class="font-bold text-xl text-slate-800 mb-2">
+                  GP & Medical Cleaning
+                </h3>
+                <p class="text-sm text-slate-500">
+                  CQC compliant medical sanitisation for clinical and
+                  patient-facing environments.
+                </p>
+              </div>
+            </div>
+            <div class="service-box watermark-showrooms">
+              <div class="service-box-content">
+                <h3 class="font-bold text-xl text-slate-800 mb-2">
+                  Showroom Cleaning
+                </h3>
+                <p class="text-sm text-slate-500">
+                  High-gloss finish and meticulous attention to detail for
+                  premium retail displays.
+                </p>
+              </div>
+            </div>
+            <div class="service-box watermark-schools">
+              <div class="service-box-content">
+                <h3 class="font-bold text-xl text-slate-800 mb-2">
+                  Schools & Education
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Enhanced DBS-checked staff providing safe and hygienic
+                  learning environments.
+                </p>
+              </div>
+            </div>
+            <div class="service-box">
+              <div class="service-box-content">
+                <h3 class="font-bold text-xl text-slate-800 mb-2">
+                  Washroom Services
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Full stock management, deep cleaning, and sanitisation
+                  services.
+                </p>
+              </div>
+            </div>
+            <div class="service-box">
+              <div class="service-box-content">
+                <h3 class="font-bold text-xl text-slate-800 mb-2">
+                  Outdoor Event Cleaning
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Rapid post-event site restoration and waste management.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            id="security-grid"
+            class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12"
+          >
+            <div class="service-box watermark-retail">
+              <div class="service-box-content">
+                <h3 class="font-bold text-xl text-slate-800 mb-2">
+                  Retail Guarding
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Professional SIA-licensed deterrence, monitoring, and loss
+                  prevention.
+                </p>
+              </div>
+            </div>
+            <div class="service-box">
+              <div class="service-box-content">
+                <h3 class="font-bold text-xl text-slate-800 mb-2">
+                  Chauffeur Guarding
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Elite, discreet close-protection driver services for
+                  executives and VIPs.
+                </p>
+              </div>
+            </div>
+            <div class="service-box watermark-drone">
+              <div class="service-box-content">
+                <h3 class="font-bold text-xl text-slate-800 mb-2">
+                  Drone Security
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Advanced aerial perimeter surveillance for large sites and
+                  events.
+                </p>
+              </div>
+            </div>
+            <div class="service-box watermark-key">
+              <div class="service-box-content">
+                <h3 class="font-bold text-xl text-slate-800 mb-2">
+                  Key Handling & Alarm Response
+                </h3>
+                <p class="text-sm text-slate-500">
+                  24/7 rapid alarm response, site checks, and liaison with
+                  emergency services.
+                </p>
+              </div>
+            </div>
+            <div class="service-box">
+              <div class="service-box-content">
+                <h3 class="font-bold text-xl text-slate-800 mb-2">
+                  Concierge Security
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Professional front-of-house security providing a safe and
+                  welcoming presence.
+                </p>
+              </div>
+            </div>
+            <div class="service-box">
+              <div class="service-box-content">
+                <h3 class="font-bold text-xl text-slate-800 mb-2">
+                  Vacant Property Protection
+                </h3>
+                <p class="text-sm text-slate-500">
+                  Regular patrols and monitoring to secure unoccupied commercial
+                  properties.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Request a Quote Section -->
+      <section id="quote" class="py-24 quote-form-container">
+        <div class="max-w-4xl mx-auto px-6 lg:px-8">
+          <div
+            class="bg-white p-10 md:p-16 rounded-3xl shadow-2xl border border-slate-200"
+          >
+            <h2 class="text-3xl font-extrabold text-slate-900 mb-4">
+              Request an Online Quote
+            </h2>
+            <p class="text-slate-500 mb-10">
+              Provide your requirements and our team will send a tailored,
+              no-obligation quote within 24 hours.
+            </p>
+
+            <form
+              onsubmit="event.preventDefault(); alert('Quote request submitted. We will be in touch shortly!');"
+              class="grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
+              <input
+                type="text"
+                placeholder="Business Name"
+                required
+                class="w-full px-5 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+              />
+              <input
+                type="text"
+                placeholder="Contact Name"
+                required
+                class="w-full px-5 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+              />
+              <input
+                type="email"
+                placeholder="Contact Email"
+                required
+                class="w-full px-5 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+              />
+              <input
+                type="tel"
+                placeholder="Contact Number"
+                required
+                class="w-full px-5 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+              />
+
+              <div class="md:col-span-2">
+                <label class="text-sm font-bold text-slate-700 block mb-2"
+                  >Service Required</label
+                >
+                <select
+                  class="w-full px-5 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                >
+                  <option>Integrated (Cleaning & Security)</option>
+                  <option>Mighty Cleaning Only</option>
+                  <option>Mighty Security Only</option>
+                  <option>Other/Not Sure</option>
+                </select>
+              </div>
+
+              <div class="md:col-span-2">
+                <textarea
+                  placeholder="Tell us about your requirements (e.g., site size, hours needed)..."
+                  rows="4"
+                  class="w-full px-5 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                ></textarea>
+              </div>
+
+              <button
+                class="md:col-span-2 py-5 bg-brand-blue text-white rounded-xl font-bold uppercase tracking-widest hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+              >
+                Send Quote Request
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Work For Us Section -->
+      <section id="work" class="py-24 bg-slate-900 text-white">
+        <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+          <h2 class="text-3xl font-extrabold mb-4">Work For Us</h2>
+          <p class="text-slate-400 mb-8">
+            We are always looking for professional, reliable, and dedicated
+            individuals to join the Mighty Group team. <br />We offer
+            competitive rates, consistent shifts, and opportunities for career
+            progression.
+          </p>
+          <a
+            href="mailto:careers@mightygroup.co.uk"
+            class="px-8 py-4 border-2 border-brand-teal text-brand-teal rounded-xl font-bold text-center hover:bg-brand-teal hover:text-white transition"
+          >
+            Email Your C.V.
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-12">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+        <p class="font-bold text-white mb-2">Mighty Group</p>
+        <p class="text-sm mb-4">
+          Sheffield, UK | 07564 541 727 | info@mightygroup.co.uk
+        </p>
+        <p class="text-xs text-slate-500">
+          &copy; 2024 Mighty Group Services Ltd. All Rights Reserved.
+        </p>
+      </div>
+    </footer>
+
+    <!-- 3. Sticky Call Widget -->
+    <a
+      href="tel:07564541727"
+      class="sticky-call-widget flex items-center gap-3 bg-brand-blue text-white px-5 py-3 rounded-full shadow-2xl hover:bg-blue-700 transition-all transform hover:scale-105"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="w-5 h-5"
+      >
+        <path
+          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+        ></path>
+      </svg>
+      <span class="font-bold hidden md:block">Click to Call</span>
+    </a>
+
+    <!-- 7. Interactive Callback Pop-up -->
+    <div
+      id="callback-modal"
+      class="hidden fixed inset-0 bg-slate-900/60 flex items-center justify-center p-4 z-50"
+    >
+      <div class="bg-white w-full max-w-md p-8 rounded-2xl shadow-2xl relative">
+        <button
+          id="close-modal-btn"
+          class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 transition"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-6 h-6"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <h3 class="text-2xl font-bold text-slate-800 mb-3">Need assistance?</h3>
+        <p class="text-slate-500 mb-6">
+          Would you like us to give you a call? Enter your number and we'll ring
+          you back right away.
+        </p>
+        <form id="callback-form" class="space-y-4">
+          <input
+            type="tel"
+            placeholder="Enter your phone number"
+            required
+            class="w-full px-5 py-3 rounded-lg bg-slate-100 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+          />
+          <button
+            type="submit"
+            class="w-full py-4 bg-brand-blue text-white rounded-lg font-bold hover:bg-blue-700 transition"
+          >
+            Request Callback
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // --- 4. Interactive Service Toggle ---
+        const toggleCleaningBtn = document.getElementById('toggle-cleaning');
+        const toggleSecurityBtn = document.getElementById('toggle-security');
+        const cleaningGrid = document.getElementById('cleaning-grid');
+        const securityGrid = document.getElementById('security-grid');
+
+        function switchServiceView(view) {
+          if (view === 'cleaning') {
+            cleaningGrid.classList.remove('hidden');
+            securityGrid.classList.add('hidden');
+            toggleCleaningBtn.classList.add('active');
+            toggleSecurityBtn.classList.remove('active');
+          } else if (view === 'security') {
+            securityGrid.classList.remove('hidden');
+            cleaningGrid.classList.add('hidden');
+            toggleSecurityBtn.classList.add('active');
+            toggleCleaningBtn.classList.remove('active');
+          }
+        }
+
+        toggleCleaningBtn.addEventListener('click', () =>
+          switchServiceView('cleaning'),
+        );
+        toggleSecurityBtn.addEventListener('click', () =>
+          switchServiceView('security'),
+        );
+
+        // --- 7. Interactive Callback Pop-up ---
+        const callbackModal = document.getElementById('callback-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const callbackForm = document.getElementById('callback-form');
+
+        // Function to show the modal
+        function showCallbackModal() {
+          callbackModal.classList.remove('hidden');
+        }
+
+        // Function to hide the modal
+        function hideCallbackModal() {
+          callbackModal.classList.add('hidden');
+        }
+
+        // Show modal after 5 seconds
+        const modalTimer = setTimeout(showCallbackModal, 5000);
+
+        // Event listeners
+        closeModalBtn.addEventListener('click', hideCallbackModal);
+
+        callbackForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          // Stop the timer if the form is submitted before 5s
+          clearTimeout(modalTimer);
+          alert('Thank you! We will call you back shortly.');
+          hideCallbackModal();
+          callbackForm.reset();
+        });
+
+        // Also hide modal if user clicks on the background overlay
+        callbackModal.addEventListener('click', (e) => {
+          if (e.target === callbackModal) {
+            hideCallbackModal();
+          }
+        });
+
+        // Also hide modal if user presses Escape key
+        document.addEventListener('keydown', (e) => {
+          if (
+            e.key === 'Escape' &&
+            !callbackModal.classList.contains('hidden')
+          ) {
+            hideCallbackModal();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
