@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mighty Group | Corporate Facilities Management</title>
+
+    <!-- Fonts & Tailwind -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Configuration for Client Preferences -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'sans-serif'] },
+            colors: {
+              pitch: '#050505',
+              primaryBlue: '#2563eb' /* Crisp logo blue */,
+              primaryTeal: '#0d9488' /* Logo teal */,
+              pastelGray: '#f8fafc' /* Bright pastel/light gray for forms */,
+              darkBox: '#0f1115',
+            },
+          },
+        },
+      };
+    </script>
+
+    <style type="text/tailwindcss">
+      /* 2. Header & Cognitive Navigation */
+      .nav-diagonal-tab {
+        position: relative;
+        z-index: 1;
+        padding: 1rem 3rem;
+        text-decoration: none;
+        color: #475569;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        transition: color 0.3s ease;
+      }
+      .nav-diagonal-tab::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        /* Desaturated, ultra-subtle pastel tint */
+        background-color: rgba(226, 232, 240, 0.06);
+        /* Sharp geometric diagonal skew */
+        transform: skewX(-25deg);
+        z-index: -1;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+      .nav-diagonal-tab:hover {
+        color: #0f172a;
+      }
+      .nav-diagonal-tab:hover::before {
+        background-color: rgba(37, 99, 235, 0.15); /* Accent highlight */
+        border-color: theme('colors.primaryBlue');
+        transform: skewX(-25deg) scale(1.05);
+      }
+
+      /* 4. Dual-Service Switcher & Grid Components */
+      .service-card {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        position: relative;
+        z-index: 1;
+        padding: 2.5rem;
+        /* Thick, solid, high-contrast structural drop-shadow (not blurry) */
+        box-shadow: 10px 10px 0px theme('colors.primaryBlue');
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .service-card:hover {
+        transform: translate(-5px, -5px);
+        box-shadow: 15px 15px 0px theme('colors.primaryTeal');
+      }
+
+      /* CSS placeholders for highly desaturated, low-opacity pastel watermarks */
+      .watermark-bg::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        /* Highly desaturated, low-opacity */
+        opacity: 0.03;
+        filter: grayscale(100%) contrast(120%);
+        mix-blend-mode: luminosity;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* Specific Watermark Mappings */
+      .wm-clinical::after {
+        background-image: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800');
+      }
+      .wm-edu::after {
+        background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=800');
+      }
+      .wm-office::after {
+        background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800');
+      }
+      .wm-retail::after {
+        background-image: url('https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&q=80&w=800');
+      }
+      .wm-alarm::after {
+        background-image: url('https://images.unsplash.com/photo-1557597774-9d2739f85a94?auto=format&fit=crop&q=80&w=800');
+      }
+      .wm-drone::after {
+        background-image: url('https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=800');
+      }
+
+      /* 1. Footer Branding Utility Class */
+      .footer-group-text {
+        color: #0f172a; /* Defaults to dark slate */
+        transition: color 0.3s ease;
+      }
+      /* Add 'teal-mode' via JS or manually to alternate styling for testing visual balance */
+      .footer-group-text.teal-mode {
+        color: theme('colors.primaryTeal');
+      }
+
+      /* Custom map styling to fit dark theme */
+      .map-iframe {
+        filter: grayscale(100%) invert(100%) contrast(1.2);
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-slate-50 text-slate-800 overflow-x-hidden antialiased selection:bg-primaryBlue selection:text-white"
+  >
+    <!-- 2. Header & Cognitive Navigation -->
+    <!-- No branding/logo in top-left, links stretch across top with wide spacing -->
+    <header
+      class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200"
+    >
+      <nav
+        class="max-w-7xl mx-auto h-24 flex items-center justify-evenly w-full px-4"
+      >
+        <a href="#services" class="nav-diagonal-tab">Services</a>
+        <a href="#quote" class="nav-diagonal-tab">Get Quote</a>
+        <a href="#careers" class="nav-diagonal-tab">Careers</a>
+        <a href="#contact" class="nav-diagonal-tab">Contact</a>
+      </nav>
+    </header>
+
+    <!-- 3. The Hero Section -->
+    <section
+      class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-24 border-b border-slate-200"
+    >
+      <!-- Centralized Corporate Badge Identifier -->
+      <img
+        src="img/mighty_standard.svg"
+        alt="Mighty Group"
+        class="mb-10 h-28 md:h-36 w-auto object-contain transition-transform duration-500 hover:scale-105 drop-shadow-[0_0_30px_rgba(37,99,235,0.3)]"
+      />
+
+      <!-- Centralized Typography -->
+      <h1
+        class="text-5xl md:text-7xl lg:text-8xl font-extrabold text-slate-900 tracking-tight mb-6"
+      >
+        Secure. <span class="text-primaryTeal">Clean.</span> Elite.
+      </h1>
+      <p
+        class="text-lg md:text-xl text-slate-600 max-w-2xl mb-12 leading-relaxed"
+      >
+        Mighty Group delivers fully accredited commercial cleaning and visible
+        deterrence security solutions. Uncompromising standards for UK
+        businesses.
+      </p>
+
+      <!-- Centralized Call-to-Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-6">
+        <a
+          href="#quote"
+          class="bg-primaryBlue hover:bg-blue-500 text-white font-bold py-4 px-10 rounded shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-colors"
+        >
+          Request Quote
+        </a>
+        <a
+          href="#services"
+          class="border border-slate-300 hover:border-slate-400 hover:bg-slate-100 text-slate-700 font-bold py-4 px-10 rounded transition-all"
+        >
+          Explore Services
+        </a>
+      </div>
+    </section>
+
+    <!-- 4. Dual-Service Switcher Section -->
+    <section id="services" class="py-32 max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-slate-900 mb-4">Core Divisions</h2>
+        <p class="text-slate-600">
+          Toggle between our specialized service sectors below.
+        </p>
+      </div>
+
+      <!-- Interactive Selector Tabs -->
+      <div class="flex justify-center gap-4 mb-16">
+        <button
+          id="btn-clean"
+          onclick="switchService('clean')"
+          class="bg-primaryBlue text-white font-bold py-4 px-12 rounded-sm border border-primaryBlue transition-colors focus:outline-none"
+        >
+          Mighty Cleaning
+        </button>
+        <button
+          id="btn-sec"
+          onclick="switchService('sec')"
+          class="bg-white text-slate-600 font-bold py-4 px-12 rounded-sm border border-slate-200 hover:bg-slate-100 transition-colors focus:outline-none"
+        >
+          Mighty Security
+        </button>
+      </div>
+
+      <!-- Mighty Cleaning Grid -->
+      <div
+        id="grid-clean"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      >
+        <div class="service-card watermark-bg wm-clinical">
+          <div
+            class="w-12 h-12 bg-primaryBlue/20 flex items-center justify-center rounded-lg mb-6 border border-primaryBlue/30 text-primaryBlue"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">Clinical CQC</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Medical-grade sanitisation for healthcare environments, completely
+            adhering to strict CQC standards.
+          </p>
+        </div>
+        <div class="service-card watermark-bg wm-office">
+          <div
+            class="w-12 h-12 bg-primaryBlue/20 flex items-center justify-center rounded-lg mb-6 border border-primaryBlue/30 text-primaryBlue"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">
+            Commercial Offices
+          </h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Daily and weekly bespoke cleaning schedules to keep your corporate
+            environment pristine and productive.
+          </p>
+        </div>
+        <div class="service-card watermark-bg wm-edu">
+          <div
+            class="w-12 h-12 bg-primaryBlue/20 flex items-center justify-center rounded-lg mb-6 border border-primaryBlue/30 text-primaryBlue"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 14l9-5-9-5-9 5 9 5z"
+              ></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">
+            Educational Buildings
+          </h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Safe, reliable sanitisation for schools and colleges handled
+            entirely by enhanced DBS-vetted staff.
+          </p>
+        </div>
+      </div>
+
+      <!-- Mighty Security Grid (Hidden by default) -->
+      <div
+        id="grid-sec"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden"
+      >
+        <div class="service-card watermark-bg wm-retail">
+          <div
+            class="w-12 h-12 bg-primaryTeal/20 flex items-center justify-center rounded-lg mb-6 border border-primaryTeal/30 text-primaryTeal"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">Retail Guarding</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            High-visibility SIA-licensed security to deter theft, manage crowds,
+            and protect high-street inventory.
+          </p>
+        </div>
+        <div class="service-card watermark-bg wm-alarm">
+          <div
+            class="w-12 h-12 bg-primaryTeal/20 flex items-center justify-center rounded-lg mb-6 border border-primaryTeal/30 text-primaryTeal"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">Alarm Response</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            24/7 keyholding with rapid dispatch capability for triggered alarms
+            and out-of-hours breaches.
+          </p>
+        </div>
+        <div class="service-card watermark-bg wm-drone">
+          <div
+            class="w-12 h-12 bg-primaryTeal/20 flex items-center justify-center rounded-lg mb-6 border border-primaryTeal/30 text-primaryTeal"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">Drone Perimeter</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Advanced aerial surveillance technology for continuous monitoring of
+            large industrial compounds.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Isolated Form Architecture (Section A) -->
+    <!-- Full-width standalone conversion container with bright pastel/light gray backdrop -->
+    <section
+      id="quote"
+      class="w-full bg-pastelGray py-32 border-y border-gray-300"
+    >
+      <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-10">
+          <h2 class="text-4xl font-extrabold text-pitch mb-4">
+            Request an Online Quote
+          </h2>
+          <p class="text-slate-600 font-medium">
+            B2B commercial accounts built around your specific facility
+            requirements.
+          </p>
+        </div>
+
+        <!-- Commercial Form styling inside light block -->
+        <form
+          class="space-y-6"
+          onsubmit="event.preventDefault(); alert('Commercial Quote Request Sent!');"
+        >
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label
+                class="block text-xs font-bold text-slate-800 uppercase mb-2"
+                >Company Name</label
+              >
+              <input
+                type="text"
+                class="w-full p-4 bg-white border border-slate-300 rounded shadow-sm focus:border-primaryBlue focus:ring-1 focus:ring-primaryBlue outline-none text-pitch"
+                required
+              />
+            </div>
+            <div>
+              <label
+                class="block text-xs font-bold text-slate-800 uppercase mb-2"
+                >Contact Name</label
+              >
+              <input
+                type="text"
+                class="w-full p-4 bg-white border border-slate-300 rounded shadow-sm focus:border-primaryBlue focus:ring-1 focus:ring-primaryBlue outline-none text-pitch"
+                required
+              />
+            </div>
+            <div>
+              <label
+                class="block text-xs font-bold text-slate-800 uppercase mb-2"
+                >Email Address</label
+              >
+              <input
+                type="email"
+                class="w-full p-4 bg-white border border-slate-300 rounded shadow-sm focus:border-primaryBlue focus:ring-1 focus:ring-primaryBlue outline-none text-pitch"
+                required
+              />
+            </div>
+            <div>
+              <label
+                class="block text-xs font-bold text-slate-800 uppercase mb-2"
+                >Service Required</label
+              >
+              <select
+                class="w-full p-4 bg-white border border-slate-300 rounded shadow-sm focus:border-primaryBlue focus:ring-1 focus:ring-primaryBlue outline-none text-pitch"
+              >
+                <option>Integrated Facility Management</option>
+                <option>Cleaning Services Only</option>
+                <option>Security Services Only</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-800 uppercase mb-2"
+              >Facility Details</label
+            >
+            <textarea
+              rows="4"
+              class="w-full p-4 bg-white border border-slate-300 rounded shadow-sm focus:border-primaryBlue focus:ring-1 focus:ring-primaryBlue outline-none text-pitch"
+              placeholder="Square footage, hours required, etc."
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-pitch hover:bg-gray-800 text-white font-bold py-4 rounded shadow-lg transition-colors uppercase tracking-wider"
+          >
+            Submit Commercial Enquiry
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 5. Isolated Form Architecture (Section B) -->
+    <section id="careers" class="py-32 max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <!-- Recruitment Form -->
+        <div>
+          <h2 class="text-4xl font-extrabold text-slate-900 mb-4">
+            Work For Us
+          </h2>
+          <p class="text-slate-600 mb-10">
+            We are expanding our teams. Submit your details to apply for
+            regional positions.
+          </p>
+
+          <form
+            class="space-y-5"
+            onsubmit="event.preventDefault(); alert('Application Submitted!');"
+          >
+            <div class="grid grid-cols-2 gap-5">
+              <input
+                type="text"
+                placeholder="First Name"
+                class="w-full p-4 bg-white border border-slate-300 rounded focus:border-primaryTeal focus:ring-1 focus:ring-primaryTeal outline-none text-slate-900"
+                required
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                class="w-full p-4 bg-white border border-slate-300 rounded focus:border-primaryTeal focus:ring-1 focus:ring-primaryTeal outline-none text-slate-900"
+                required
+              />
+            </div>
+            <input
+              type="tel"
+              placeholder="Phone Number"
+              class="w-full p-4 bg-white border border-slate-300 rounded focus:border-primaryTeal focus:ring-1 focus:ring-primaryTeal outline-none text-slate-900"
+              required
+            />
+            <select
+              class="w-full p-4 bg-white border border-slate-300 rounded focus:border-primaryTeal focus:ring-1 focus:ring-primaryTeal outline-none text-slate-900"
+            >
+              <option>Applying for Cleaning Division</option>
+              <option>Applying for Security Division (SIA Required)</option>
+            </select>
+            <div class="pt-2">
+              <button
+                type="submit"
+                class="w-full border border-primaryTeal text-primaryTeal hover:bg-primaryTeal hover:text-white font-bold py-4 rounded transition-all uppercase tracking-wider"
+              >
+                Send Application
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Google Maps iframe Stylized Vector Block -->
+        <div
+          class="h-[500px] w-full bg-white border border-slate-200 rounded-xl relative overflow-hidden flex items-center justify-center p-4"
+        >
+          <!-- High-contrast map iframe via filter inversion in CSS -->
+          <iframe
+            class="map-iframe absolute inset-0 w-full h-full pointer-events-none"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d152206.87789476718!2d-1.61198642340331!3d53.39580556133446!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48790aa9fae8be15%3A0x3e2827f5af06b078!2sSheffield!5e0!3m2!1sen!2suk!4v1700000000000!5m2!1sen!2suk"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+          <div class="absolute inset-0 bg-white/10 pointer-events-none"></div>
+
+          <div
+            class="relative z-10 bg-white/90 backdrop-blur-md border border-slate-200 p-6 rounded shadow-2xl text-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8 text-primaryTeal mx-auto mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+            <h3 class="text-slate-900 font-bold text-lg">HQ Location</h3>
+            <p class="text-slate-600 text-sm mt-1">
+              Sheffield, South Yorkshire
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="py-16 border-t border-slate-200 text-center">
+      <div class="max-w-7xl mx-auto px-6">
+        <p class="text-slate-500 mb-6 text-sm">
+          © 2026 Mighty Group Ltd. Secure. Clean. Elite.
+        </p>
+
+        <!-- 1. Footer Branding Utility Class applied to "GROUP" -->
+        <div
+          class="text-3xl md:text-4xl font-extrabold tracking-widest text-slate-900"
+        >
+          MIGHTY <span class="footer-group-text">GROUP</span>
+        </div>
+
+        <div class="mt-8 flex justify-center gap-6">
+          <button
+            onclick="document.querySelector('.footer-group-text').classList.toggle('teal-mode')"
+            class="text-xs text-slate-600 hover:text-slate-300 underline"
+          >
+            Toggle Footer Branding Check
+          </button>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 6. Sticky Utilities: Click to Call -->
+    <a
+      href="tel:07564541727"
+      class="fixed bottom-6 right-6 z-40 bg-primaryTeal hover:bg-teal-500 text-white p-4 rounded-full shadow-[0_0_20px_rgba(13,148,136,0.4)] transition-all flex items-center justify-center"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+        />
+      </svg>
+    </a>
+
+    <!-- 6. Time-Based Pop-Up Modal Overlay -->
+    <div
+      id="callbackModal"
+      class="fixed inset-0 bg-pitch/90 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300"
+    >
+      <div
+        class="bg-white border border-slate-200 p-10 rounded-xl shadow-2xl max-w-md w-full mx-4 text-center transform scale-95 transition-transform duration-300"
+        id="callbackModalInner"
+      >
+        <button
+          onclick="closeModal()"
+          class="absolute top-4 right-4 text-slate-500 hover:text-white transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+        <h3 class="text-2xl font-bold text-slate-900 mb-2">
+          Need immediate help?
+        </h3>
+        <p class="text-slate-600 mb-8">Would you like us to give you a call?</p>
+        <form
+          onsubmit="event.preventDefault(); alert('Callback requested.'); closeModal();"
+          class="flex flex-col gap-4"
+        >
+          <input
+            type="tel"
+            placeholder="Enter telephone number"
+            class="w-full p-4 bg-slate-50 border border-slate-200 rounded focus:border-primaryBlue focus:ring-1 focus:ring-primaryBlue outline-none text-slate-900 text-center"
+            required
+          />
+          <button
+            type="submit"
+            class="w-full bg-primaryBlue hover:bg-blue-500 text-white font-bold py-4 rounded transition-colors uppercase tracking-wider"
+          >
+            Call Me Back
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Core Logic -->
+    <script>
+      // 4. Vanilla JS to cycle between two grid components without refreshing
+      function switchService(serviceType) {
+        const cleanBtn = document.getElementById('btn-clean');
+        const secBtn = document.getElementById('btn-sec');
+        const gridClean = document.getElementById('grid-clean');
+        const gridSec = document.getElementById('grid-sec');
+
+        if (serviceType === 'clean') {
+          gridClean.classList.remove('hidden');
+          gridSec.classList.add('hidden');
+
+          // Style active state
+          cleanBtn.classList.replace('bg-white', 'bg-primaryBlue');
+          cleanBtn.classList.replace('text-slate-600', 'text-white');
+          cleanBtn.classList.replace('border-slate-200', 'border-primaryBlue');
+
+          // Style inactive state
+          secBtn.classList.replace('bg-primaryBlue', 'bg-white');
+          secBtn.classList.replace('text-white', 'text-slate-600');
+          secBtn.classList.replace('border-primaryBlue', 'border-slate-200');
+        } else {
+          gridSec.classList.remove('hidden');
+          gridClean.classList.add('hidden');
+
+          // Style active state
+          secBtn.classList.replace('bg-white', 'bg-primaryBlue');
+          secBtn.classList.replace('text-slate-600', 'text-white');
+          secBtn.classList.replace('border-slate-200', 'border-primaryBlue');
+
+          // Style inactive state
+          cleanBtn.classList.replace('bg-primaryBlue', 'bg-white');
+          cleanBtn.classList.replace('text-white', 'text-slate-600');
+          cleanBtn.classList.replace('border-primaryBlue', 'border-slate-200');
+        }
+      }
+
+      // 6. JavaScript timeout script (30-second pop-up)
+      const callbackModal = document.getElementById('callbackModal');
+      const callbackModalInner = document.getElementById('callbackModalInner');
+
+      setTimeout(() => {
+        callbackModal.classList.remove('opacity-0', 'pointer-events-none');
+        callbackModalInner.classList.remove('scale-95');
+        callbackModalInner.classList.add('scale-100');
+      }, 30000); // 30 seconds
+
+      function closeModal() {
+        callbackModal.classList.add('opacity-0', 'pointer-events-none');
+        callbackModalInner.classList.remove('scale-100');
+        callbackModalInner.classList.add('scale-95');
+      }
+    </script>
+  </body>
+</html>
